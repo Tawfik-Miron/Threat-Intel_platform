@@ -4,12 +4,12 @@ from routers import indicators, reports
 from database import Base, engine
 import os
 
-# Create DB tables if they don't exist
+# Create DB tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Threat Intel Platform - Backend")
 
-# CORS (allow your frontend origin; here broad for dev)
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
@@ -18,6 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Routers
 app.include_router(indicators.router, prefix="/api/indicators", tags=["indicators"])
 app.include_router(reports.router, prefix="/api/reports", tags=["reports"])
 
